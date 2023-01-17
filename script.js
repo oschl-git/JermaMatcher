@@ -4,6 +4,7 @@ const imgSrcList = getAllImgSrcArray();
 let img1List;
 let img2List;
 
+//References to HTML elements:
 const imgElements = document.getElementById('image-container').getElementsByTagName('img');
 const matchButton = document.getElementById('match-button');
 const scoreCounter = document.getElementById('score-counter');
@@ -11,9 +12,12 @@ const scoreCounter = document.getElementById('score-counter');
 let imgInterval = setInterval(changeImages, 700);
 
 let globalImgIndex = imgCount + 1;
+//Set one higher than image count so generateImages() gets triggered on launch
+
 let score = 0;
 
 matchButton.addEventListener("click", matchButtonClicked);
+
 
 //Called in an interval, handles changing displayed images
 function changeImages() {
@@ -28,6 +32,7 @@ function changeImages() {
 }
 
 
+//Handles button click, increases/decreases score
 function matchButtonClicked() {
 	if (imgElements[0].src == imgElements[1].src) score++;
 	else score--;
@@ -66,10 +71,10 @@ function generateImageArrays() {
 
 //Shuffles an array
 function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
+	for (var i = array.length - 1; i > 0; i--) {
+		var j = Math.floor(Math.random() * (i + 1));
+		var temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
 }

@@ -10,6 +10,10 @@
 </head>
 <body>
 	<div id="content-container">
+		<div class="status-container">
+			<h3>Score:</h3>
+			<h1 id="score-counter">0</h1>
+		</div>
 		<div id="game-container">
 			<h1>Press the button when the Jermas match.</h1>
 			<div id="image-container">
@@ -18,9 +22,12 @@
 			</div>
 			<button id="match-button">Match!</button>
 		</div>
-		<p style="display: none;" id="time-counter">Time: 30s</p>
-		<p>Score: <span id="score-counter">0</span></p>
+		<div class="status-container">
+			<h3>Time remaining:</h3>
+			<h1 id="time-counter">60 s</h1>
+		</div>
 	</div>
+
 	
 	<script src="script.js"></script>
 </body>

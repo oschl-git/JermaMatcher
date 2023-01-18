@@ -10,19 +10,31 @@
 </head>
 <body>
 	<div id="content-container">
-		<div class="status-container">
+		<div class="status-container" style="display: none;">
 			<h3>Score:</h3>
 			<h1 id="score-counter">0</h1>
 		</div>
-		<div id="game-container">
-			<h1>Press the button when the Jermas match.</h1>
+		<div id="start-container">
+			<h1>JermaMatcher</h1>
+			<h3>The goal is simple:</h3>
+			<h2>Press the button when the Jermas match.</h2>
+			<h1>Good luck!</h1>
+			<button type="button" id="play-button">Play!</button>
+		</div>
+		<div id="game-container" style="display: none;">
 			<div id="image-container">
 				<img alt="Image 1">
 				<img alt="Image 2">
 			</div>
-			<button id="match-button">Match!</button>
+			<button type="button" id="match-button">Match!</button>
 		</div>
-		<div class="status-container">
+		<div id="endscreen-container" style="display: none;">
+			<h1>Game ended!</h1>
+			<h2>Final score:</h2>
+			<h1 id="final-score">0</h1>
+			<button type="button" id="play-again-button">Play again!</button>
+		</div>
+		<div class="status-container" style="display: none;">
 			<h3>Time remaining:</h3>
 			<h1 id="time-counter">60 s</h1>
 		</div>

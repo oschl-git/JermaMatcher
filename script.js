@@ -7,40 +7,55 @@ let img2List;
 //References to HTML elements:
 const imgElements = document.getElementById('image-container').getElementsByTagName('img');
 const matchButton = document.getElementById('match-button');
+const startPlayingButton = document.getElementById('play-button');
+const playAgainButton = document.getElementById('play-again-button');
 const scoreCounter = document.getElementById('score-counter');
 const timeCounter = document.getElementById('time-counter');
+const statusContainers = document.getElementsByClassName('status-container');
 
 let globalImgIndex = imgCount + 1;
 //Set one higher than image count so generateImages() gets triggered on launch
-let score = 0;
-let timeRemaining = 60;
+let score;
+let timeRemaining;
 let imgDelay = 600;
-let pauseDelay = 3000;
-let gamePaused = false;
+let pauseDelay = 2500;
+let justLaunched = true;
+let gamePaused;
+let gameEnded;
 
-let imgInterval = setInterval(changeImages, imgDelay);
-let timeInterval = setInterval(processTimer, 1000);
+let imgInterval;
+let timeInterval;
 
 matchButton.addEventListener("click", matchButtonClicked);
+startPlayingButton.addEventListener("click", matchButtonClicked);
+playAgainButton.addEventListener("click", matchButtonClicked);
 window.addEventListener("keydown", function (event) {
 	if (event.defaultPrevented) {
 	  return; // Do nothing if the event was already processed
 	}
-
 	if (event.key == ' ' || event.key == 'Enter') matchButtonClicked();
-
 	// Cancel the default action to avoid it being handled twice
 	event.preventDefault();
 }, true);
-initialSetup();
 
 
 //Called at the beginning, sets up stuff before the game starts.
 function initialSetup() {
+	timeRemaining = 609;
+	gamePaused = false;
+	gameEnded = false;
+	score = 0;
+	imgInterval = setInterval(changeImages, imgDelay);
+	timeInterval = setInterval(processTimer, 100);
 	imgElements[0].src = getImageOfIndex(Math.floor(Math.random() * imgCount) + 1);
 	imgElements[1].src = getImageOfIndex(Math.floor(Math.random() * imgCount) + 1);
 	scoreCounter.innerText = score;
 	timeCounter.innerText = timeRemaining + ' s';
+	matchButton.innerText = "Match!"
+	matchButton.style.backgroundColor = '#ffc048';
+	for (let element of statusContainers) {
+		element.style.display = 'block';
+	}
 }
 
 
@@ -49,7 +64,7 @@ function changeImages() {
 	if (gamePaused) {
 		clearInterval(imgInterval)
 		imgInterval = setInterval(changeImages, imgDelay);
-		timeInterval = setInterval(processTimer, 1000);
+		timeInterval = setInterval(processTimer, 100);
 		matchButton.innerText = "Match!"
 		matchButton.style.backgroundColor = '#ffc048';
 		gamePaused = false;
@@ -68,6 +83,19 @@ function changeImages() {
 //Handles button click, increases/decreases score
 function matchButtonClicked() {
 	if (gamePaused) return;
+	if (justLaunched) {
+		justLaunched = false;
+		document.getElementById('start-container').style.display = 'none';
+		document.getElementById('game-container').style.display = 'block';
+		initialSetup();
+		return;
+	}
+	if (gameEnded) {
+		document.getElementById('endscreen-container').style.display = 'none';
+		document.getElementById('game-container').style.display = 'block';
+		initialSetup();
+		return;
+	}
 
 	if (imgElements[0].src == imgElements[1].src) {
 		score++;
@@ -130,13 +158,19 @@ function shuffleArray(array) {
 //Called every second, decreases timer, etc.
 function processTimer() {
 	timeRemaining -= 1;
-	timeCounter.innerText = timeRemaining + ' s';
+	timeCounter.innerText = parseInt(timeRemaining/10) + ' s';
 
 	if (timeRemaining <= 0) {
 		clearInterval(imgInterval);
 		clearInterval(timeInterval);
-		gamePaused = true;
-		matchButton.innerText = "Game ended"
-		matchButton.style.backgroundColor = '#d2dae2';
+		gameEnded = true;
+		gamePaused = false;
+		playAgainButton.style.backgroundColor = '#d2dae2';
+		document.getElementById('game-container').style.display = 'none';
+		document.getElementById('endscreen-container').style.display = 'block';
+		document.getElementById('final-score').innerText = score;
+		for (let element of statusContainers) {
+			element.style.display = 'none';
+		}
 	}
 }

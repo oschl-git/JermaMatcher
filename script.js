@@ -39,7 +39,7 @@ window.addEventListener("keydown", function (event) {
 }, true);
 
 
-//Called at the beginning, sets up stuff before the game starts.
+//Called at the beginning of a game, sets up stuff before the game starts.
 function initialSetup() {
 	timeRemaining = 609;
 	gamePaused = false;
@@ -115,7 +115,7 @@ function matchButtonClicked() {
 }
 
 
-//Returns an array of allavailable img sources
+//Returns an array of all available img sources
 function getAllImgSrcArray() {
 	let output = [];
 	for (let i = 1; i <= imgCount; i++) {
@@ -155,7 +155,7 @@ function shuffleArray(array) {
 }
 
 
-//Called every second, decreases timer, etc.
+//Called with the timer interval, decreases timer, etc.
 function processTimer() {
 	timeRemaining -= 1;
 	timeCounter.innerText = parseInt(timeRemaining/10) + ' s';
